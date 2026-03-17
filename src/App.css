@@ -1,38 +1,84 @@
-.App {
+body {
+  margin: 0;
+  background-color: #141414;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+h1 {
   text-align: center;
+  color: #e50914;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Search bar */
+input {
+  display: block;
+  margin: 20px auto;
+  padding: 12px;
+  width: 300px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background-color: #222;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Grid layout */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
+/* Movie card */
+.movie-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.movie-card:hover {
+  transform: scale(1.1);
+}
+
+/* Details section */
+.details {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+  background-color: #1f1f1f;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.details img {
+  width: 250px;
+  border-radius: 10px;
+}
+
+.details-content {
+  max-width: 600px;
+}
+
+/* Spinner */
+.spinner {
+  border: 5px solid #333;
+  border-top: 5px solid #e50914;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  100% {
     transform: rotate(360deg);
   }
 }
