@@ -12,10 +12,10 @@ export default function Searchbar({ onSearch }) {
   return (
     <input
       type="text"
-      placeholder="Search movies..."
+      placeholder="🔍 Search movies..."
       value={query}
       onChange={handleChange}
-      style={{ padding: "10px", width: "100%", marginBottom: "20px" }}
+      className="search-bar"
     />
   );
 }

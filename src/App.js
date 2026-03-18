@@ -3,12 +3,10 @@ import Searchbar from "./components/Searchbar";
 import MovieList from "./components/MovieList";
 import { searchMovies } from "./api";
 import axios from "axios";
-
+import "./App.css";
 function App() {
   const [movies, setMovies] = useState([]);
   const [selected, setSelected] = useState(null);
-
-  // ✅ ADD THIS (loading state)
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async (name) => {
@@ -18,70 +16,66 @@ function App() {
     }
 
     try {
-      // ✅ BEFORE API CALL
       setLoading(true);
-
       const res = await searchMovies(name);
-
       setMovies(res.data.Search || []);
     } catch (error) {
       console.error(error);
       setMovies([]);
     } finally {
-      // ✅ AFTER API CALL
       setLoading(false);
     }
   };
 
-const handleSelect = async (id) => {
-  console.log("Clicked ID:", id); // 👈 ADD THIS
-
-  const res = await axios.get(`http://localhost:8080/movies/${id}`);
-  console.log(res.data); // 👈 ADD THIS
-
-  setSelected(res.data);
-}; 
-
-
-
+  const handleSelect = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:8080/movies/${id}`);
+      setSelected(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>🎬 Movie Search App</h1>
+    <div>
+      {/* 🔥 HEADER */}
+      <div className="header">
+        <h1>🎬 MovieFlix</h1>
+      </div>
 
       <Searchbar onSearch={handleSearch} />
 
-      {/* ✅ LOADING UI */}
-
       {loading && (
-  <div style={{ textAlign: "center", margin: "20px" }}>
-    <div className="spinner"></div>
-  </div>
-)}
+        <div className="center">
+          <div className="spinner"></div>
+        </div>
+      )}
 
-      {/* ✅ NO RESULTS */}
-      {!loading && movies.length === 0 && <p>No movies found</p>}
+      {!loading && movies.length === 0 && (
+        <p className="center">No movies found</p>
+      )}
 
-      {/* ✅ MOVIE LIST */}
       <MovieList movies={movies} onSelect={handleSelect} />
 
-      {/* ✅ DETAILS */}
-      
-
-
+      {/* 🔥 MODAL POPUP */}
       {selected && (
-  <div className="details">
-    <img src={selected.Poster} alt={selected.Title} />
+        <div className="modal" onClick={() => setSelected(null)}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={selected.Poster} alt={selected.Title} />
 
-    <div className="details-content">
-      <h2>{selected.Title}</h2>
-      <p>{selected.Year}</p>
-      <p><b>Genre:</b> {selected.Genre}</p>
-      <p><b>Rating:</b> ⭐ {selected.imdbRating}</p>
-      <p>{selected.Plot}</p>
-    </div>
-  </div>
-)}
+            <div>
+              <h2>{selected.Title}</h2>
+              <p>{selected.Year}</p>
+              <p><b>Genre:</b> {selected.Genre}</p>
+              <p><b>Rating:</b> ⭐ {selected.imdbRating}</p>
+              <p>{selected.Plot}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
